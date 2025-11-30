@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaBank – Transfer Funds</title>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+
+<body>
+
+    <nav class="top-nav">
+        <h2>NovaBank</h2>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="transactions.html">Transactions</a>
+    </nav>
+
+    <h2 class="section-title" style="text-align:center;">Transfer Funds</h2>
+
+    <div class="form-card">
+
+    <label>From Account</label>
+    <select id="fromAccount">
+        <option value="chequing">Chequing</option>
+        <option value="savings">Savings</option>
+    </select>
+
+    <label>Recipient</label>
+    <input id="recipient" type="text" placeholder="Enter recipient name">
+
+    <label>Amount</label>
+    <input id="amount" type="number">
+
+    <button onclick="makeTransfer()">Send Transfer</button>
+</div>
+
+<h2 class="section-title" style="text-align:center;">Past Transfers</h2>
+
+<table class="table" id="historyTable"></table>
+
+<script>
+    loadTransactions();
+</script>
+
+
+    <script>
+        // ---------------------------
+        // FIXED STARTING ACCOUNT MONEY
+        // ---------------------------
+
+        let chequing = 4320.55;
+        let savings = 8900.00;
+
+        // ---------------------------
+        // MAKE TRANSFER FUNCTION
+        // ---------------------------
+
+        function makeTransfer() {
+
+            let fromAccount = document.getElementById("fromAccount").value;
+            let recipient = document.getElementById("recipient").value;
+            let amount = Number(document.getElementById("amount").value);
+
+            if (recipient.trim() === "" || amount <= 0) {
+                alert("Enter a valid recipient and amount.");
+                return;
+            }
+
+            // Deduct from selected account
+            if (fromAccount === "chequing") {
+                if (amount > chequing) {
+                    alert("Not enough money in Chequing!");
+                    return;
+                }
+                chequing -= amount;
+            } 
+            else if (fromAccount === "savings") {
+                if (amount > savings) {
+                    alert("Not enough money in Savings!");
+                    return;
+                }
+                savings -= amount;
+            }
+
+            // Add transaction to bottom table
+            let table = document.getElementById("historyTable");
+
+            let row = `
+                <tr>
+                    <td>${new Date().toLocaleDateString()}</td>
+                    <td>${recipient}</td>
+                    <td>-$${amount.toFixed(2)}</td>
+                </tr>
+            `;
+
+            table.innerHTML += row;
+
+            // Reset fields
+            document.getElementById("amount").value = "";
+            document.getElementById("recipient").value = "";
+
+            alert("Transfer successful!");
+        }
+
+    </script>
+
+</body>
+</html>

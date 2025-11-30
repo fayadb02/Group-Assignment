@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaBank – Support Chat</title>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+
+<body>
+    <nav class="top-nav">
+        <h2>NovaBank</h2>
+        <a href="dashboard.html">Dashboard</a>
+    </nav>
+
+    <h2 class="section-title" style="text-align:center;">Customer Support</h2>
+
+    <div class="chat-box" id="chatBox">
+        <div class="msg bot">Hello! How can I assist you today?</div>
+    </div>
+
+    <div style="width:90%; max-width:750px; margin:1rem auto; display:flex; gap:1rem;">
+        <input id="chatInput" placeholder="Type a message..." style="flex-grow:1; padding:1rem;">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById("chatInput");
+            const box = document.getElementById("chatBox");
+
+            if (input.value.trim() === "") return;
+
+            box.innerHTML += `<div class="msg user">${input.value}</div>`;
+            box.innerHTML += `<div class="msg bot">Thanks! We'll get back to you shortly.</div>`;
+            input.value = "";
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+
+</body>
+</html>
